@@ -1,0 +1,28 @@
+{% extends '../Common/base.html' %}
+
+{% block title %}index{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block page_head %}新闻热点{% endblock %}
+{% block content %}
+<ul class="list-group">
+	{% for item in data %}
+	<li class="list-group-item">
+		<span class="badge">{{ item.pub_time }}</span>
+		<a href="/news/detail?id={{ item.id }}">{{ item.title }}</a>
+	</li>
+	{% endfor %}
+</ul>
+<nav>
+  <ul class="pagination">
+    {{ pager_html }}
+  </ul>
+</nav>
+{% endblock %}
+	
+{% block footer %}
+
+{% endblock %}	

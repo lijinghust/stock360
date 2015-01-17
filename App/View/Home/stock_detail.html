@@ -1,0 +1,88 @@
+{% extends '../Common/base.html' %}
+
+{% block title %}股票详情{% endblock %}
+
+{% block header %}
+<style>
+	.form-table {
+		width: 100%;
+		border-collapse: collapse;
+		table-layout: fixed;
+	}
+	.tb-stock-info th {
+		vertical-align: top;
+	}
+	.stock-info .th, .stock-info .td {
+		padding: 10px;
+	}
+	.stock-info .th {
+		color: #B9BABD;
+		font-weight: 100;
+		text-align: right;
+	}
+</style>
+{% endblock %}
+
+{% block page_head %}股票详情{% endblock %}
+
+{% block content %}
+<div class="stock-info">
+	<div class="row">
+		<div class="col-md-4 th">股票名称</div>
+		<div class="col-md-8 td">{{ stockInfo.name }}  <a href="#" class="favour" data-id="{{ stockInfo.id }}">赞<em class="number">{{ stockInfo.favour }}</em></a></div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">股票代码</div>
+		<div class="col-md-8 td">{{ stockInfo.code }}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">买入价</div>
+		<div class="col-md-8 td">{{ stockInfo.price }}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">股票类型</div>
+		<div class="col-md-8 td">{{ stockInfo.type }}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">主题</div>
+		<div class="col-md-8 td">{{ stockInfo.topic }}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">推荐星级</div>
+		<div class="col-md-8 td">{{ stockInfo.rating }}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">推荐人</div>
+		<div class="col-md-8 td">{{ stockInfo.author }}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">推荐理由</div>
+		<div class="col-md-8 td">{{ stockInfo.reason }}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 th">时间</div>
+		<div class="col-md-8 td">{{ stockInfo.create_time }}</div>
+	</div>
+</div>
+{% endblock %}
+	
+{% block footer %}
+	<script>
+	$(".favour").on("click",function(e){
+		e.preventDefault();
+
+		var self = $(this);
+		var id = self.data("id");
+		var number = parseInt(self.find(".number").html());
+
+		$.post('/stock/_favour',{id:id},function(data){
+			console.log(data);
+			if(data.errno == 0){
+				self.find(".number").html(number + 1);
+				// TODO  增加简单判断：写入cookie，判断无cookie方可点赞
+			}
+		})
+	})
+
+	</script>
+{% endblock %}	

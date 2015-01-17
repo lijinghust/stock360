@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+
+		<link rel="stylesheet" href="/resource/css/bootstrap.css">
+		<style>
+		.weixinImg{
+			width:140px;
+			height:auto;
+			float:left;
+		}
+		.footer {
+			width: 100%;
+			height: 60px;
+			background-color: #f5f5f5;
+		}
+		.footer > .container {
+			padding-right: 15px;
+			padding-left: 15px;
+		}
+		.container .text-muted {
+			margin: 20px 0;
+		}
+		</style>
+		{% block header %}{% endblock %}
+	</head>
+	<body>
+		<nav class="navbar navbar-default" role="navigation">
+		  <div class="container">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="/">Brand</a>
+		    </div>
+
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li  {% if cates.category == "news" %}class="active"{% endif %}><a href="/news">新闻</a></li>
+		        <li {% if cates.category == "stock" %}class="active"{% endif %}><a href="/stock">股票</a></li>
+		        <li {% if cates.category == "weixin" %}class="active"{% endif %}><a href="/weixin">微信</a></li>
+		        <li {% if cates.category == "extension" %}class="active"{% endif %}><a href="/extension">插件</a></li>
+		      </ul>
+		      <form class="navbar-form navbar-right" role="search">
+		        <div class="form-group">
+		          <input type="text" class="form-control" placeholder="Search">
+		        </div>
+		        <button type="submit" class="btn btn-default">搜索</button>
+		      </form>
+		      <!-- <ul class="nav navbar-nav navbar-right">
+		        <li><a href="/admin/user/login">admin</a></li>
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+		          <ul class="dropdown-menu" role="menu">
+		            <li><a href="#">Action</a></li>
+		            <li><a href="#">Another action</a></li>
+		            <li><a href="#">Something else here</a></li>
+		            <li class="divider"></li>
+		            <li><a href="#">Separated link</a></li>
+		          </ul>
+		        </li>
+		      </ul> -->
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		<!-- <div class="navbar navbar-default navbar-static-top">
+			{% if userInfo && userInfo.email %}
+			用户名：{{ userInfo.email }}
+			{% else %}
+				<a href="/admin/user/login">登陆</a>
+				<a href="/admin/user/reg">注册</a>
+			{% endif %}
+		</div> -->
+		<div class="container">
+		{% if http.controller == "Index" && http.action == "index" %}
+			<div class="row">
+				{% block content %}{% endblock %}				
+			</div>
+		{% else %}
+			<div class="row">
+				<div class="col-md-9">
+					<div class="page-header">
+						<h1>{% block page_head %}{% endblock %}<small>{% block page_head_sub %}{% endblock %}</small></h1>
+					</div>
+					{% block content %}{% endblock %}
+				</div>
+				<div class="col-md-3">
+					热门资讯
+				</div>
+			</div>
+		{% endif %}
+		</div>		
+		{% include "footer.html" %}
+	</body>
+	<script src="http://s7.qhimg.com/lib/jquery/1102.js"></script>
+	<script src="/resource/js/bootstrap.js"></script>
+	{% block footer %}
+	{% endblock %}
+</html>

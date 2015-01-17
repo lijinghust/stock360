@@ -1,0 +1,43 @@
+{% extends '../Common/base_admin.html' %}
+
+{% block title %}index{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block page_head %}新闻{% endblock %}
+
+
+{% block content %}
+<div class="alert alert-success" role="alert"></div>
+<div class="alert alert-danger" role="alert">...</div>
+<button type="button" class="btn btn-default" id="capture">抓取数据</button>
+{% endblock %}
+	
+{% block footer %}
+	<script>
+		$("#capture").on('click',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+
+			var self = this;
+			$.get('/admin/news/_capture',function(res){
+				console.log(res);
+				if(res.errno == 0){
+					switch(res.data.type){
+						case "add":
+							alert('添加成功')
+							self.reset();
+							break;
+						case "exist":
+							alert('您添加的已存在');
+							break;
+					}
+				}else{
+					alert("fail");
+				}
+			});
+		});
+	</script>
+{% endblock %}

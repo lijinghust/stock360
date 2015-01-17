@@ -1,0 +1,24 @@
+{% extends '../Common/base.html' %}
+
+{% block title %}index{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+	welcome to 插件
+{% endblock %}
+	
+{% block footer %}
+	<script>
+		$("#form").on('submit',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+
+			$.post('http://localhost/stock/api/stock/add.php',$(this).serialize(),function(data){
+				console.log(data);
+			});
+		});
+	</script>
+{% endblock %}	
