@@ -13,6 +13,7 @@ module.exports = Controller("Home/BaseController", function(){
       //render View/Home/index_index.html file
       return D("stock").getStocksLatestList().then(function(d){
       	self.assign('stockList',d);
+        self.assign('stockTypeConf',conf_stock_type);
       	self.display();
       });
     },

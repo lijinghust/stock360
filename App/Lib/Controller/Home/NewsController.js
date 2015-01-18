@@ -3,6 +3,7 @@
  * @return 
  */
 var Pager = require(COMMON_PATH + '/navigator.js');
+var cheerio = require('cheerio');
 
 module.exports = Controller("Home/BaseController",function(){
 	"use strict";
@@ -15,7 +16,16 @@ module.exports = Controller("Home/BaseController",function(){
 					currentClass: 'active'
 				});
 				self.assign('pager_html',pager);
-				self.assign('data',data.data);
+
+				var newsList = [];
+				for(var i = 0, len = data.data.length;i<len; i++){
+	                var news = data.data[i];
+	                var $ = cheerio.load(news.content,{decodeEntities:false});
+	                news.content = $('p').text().slice(0,80) + '...';
+	                // console.log($('*').text());
+	                newsList.push(news);
+	            }
+				self.assign('newsList', newsList);
 				self.display();
 			});
 		},

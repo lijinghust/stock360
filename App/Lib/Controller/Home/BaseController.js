@@ -19,13 +19,16 @@ module.exports = Controller(function(){
     	// 	self.userInfo = data[0];
     	// 	self.assign("userInfo",data[0]);
     	// })
-
+        var self = this;
         var cates = {
             group: this.http.group.toLowerCase(),
             category: this.http.controller.toLowerCase(),
             action: this.http.action.toLowerCase()
         }
-        this.assign("cates",cates);
+        self.assign("cates",cates);
+        D('weixin').getWeixinList().then(function(data){
+            self.assign('weixinList', data);
+        });
     }
   }
 })
