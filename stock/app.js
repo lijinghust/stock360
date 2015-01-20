@@ -15,6 +15,7 @@
 		requestQueryKey : 'q',
 		requestCallbackKey : 'cb',
 		localStorageKey : Stock.name,
+		suggestMaxNum: 15,
 		submitCallback : function(query){
 			var arr = query.split("  ");
 			var queryObj = {
