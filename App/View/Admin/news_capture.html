@@ -3,15 +3,19 @@
 {% block title %}index{% endblock %}
 
 {% block header %}
-
+<style type="text/css">
+	.alert-success,.alert-danger{
+		display:none;
+	}
+</style>
 {% endblock %}
 
 {% block page_head %}新闻{% endblock %}
 
 
 {% block content %}
-<div class="alert alert-success" role="alert"></div>
-<div class="alert alert-danger" role="alert">...</div>
+<div class="alert alert-success" role="alert">共住取了 <span class="num"></span> 数据</div>
+<div class="alert alert-danger" role="alert">正在抓取数据中...</div>
 <button type="button" class="btn btn-default" id="capture">抓取数据</button>
 {% endblock %}
 	
@@ -21,19 +25,14 @@
 			e.preventDefault();
 			e.stopPropagation();
 
+			$('.alert-danger').show
+
 			var self = this;
 			$.get('/admin/news/_capture',function(res){
 				console.log(res);
 				if(res.errno == 0){
-					switch(res.data.type){
-						case "add":
-							alert('添加成功')
-							self.reset();
-							break;
-						case "exist":
-							alert('您添加的已存在');
-							break;
-					}
+					$('.alert-success .num').html(res.data.length);
+					$('.alert-success').show();
 				}else{
 					alert("fail");
 				}
