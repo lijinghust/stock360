@@ -9,8 +9,10 @@ module.exports = Controller('Admin/BaseController',function(){
 	var nodegrass = require('nodegrass');
 	var utils = require('utility');
 
-
-	var regComment = /<!--([\s\S]*?)-->/g;
+	// html注释的正则
+	var regComment = /<!--([\s\S]*?)-->/g;  
+	// 简单的提取时间的正则  
+	var regTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/;
 	// 抓取网站config
     var configSiteInfo = [
         /* {domain:域名，
@@ -26,9 +28,43 @@ module.exports = Controller('Admin/BaseController',function(){
         	title:'h1#h1title',
         	content:'#endText',
         	where:'#ne_article_source',
-        	putTime:'.ep-time-soure',
+        	pubTime:'.ep-time-soure',
         	charset:'gbk',
-        	excludeSelector:['>*:not(p)']
+        	excludeContentSelector:['>*:not(p)'],// 去除内容中的非p元素
+        	cbInfo: function(html){	// 获取内容的回调函数
+        		var siteConfig = this;
+        		var $ = cheerio.load(html,{decodeEntities:false});
+
+        		var title, content, pubTime, where;
+				title = ($(siteConfig.title).html() || '').trim();
+
+				pubTime = ($(siteConfig.pubTime).html() || '').trim().match(regTime);
+				
+				if(pubTime != null){
+					pubTime = pubTime[0];
+				}else{
+					pubTime = '';
+				}
+				where = ($(siteConfig.where).html() || '').trim();					
+
+				var $content = $(siteConfig.content);
+				if(!$content){
+					return getPromise(null,true);
+				}
+
+				var excludeContentSelector = siteConfig.excludeContentSelector;
+				for(var i = 0, len = excludeContentSelector.length; i < len; i++){
+					$content.find(excludeContentSelector[i]).remove();
+				}
+				content = $content.html().replace(regComment, '').trim();
+
+				return {
+					title: title,
+					content: content,
+					where: where,
+					pubTime: pubTime
+				}
+        	}
         },
     	{
     		domain:/finance\.qq\.com/,
@@ -37,7 +73,7 @@ module.exports = Controller('Admin/BaseController',function(){
     		where:'span.where',
     		pubTime:'.pubTime',
     		charset:'gbk',
-    		excludeSelector:[]
+    		excludeContentSelector:[]
     	},
     	{
     		domain:/finance\.eastmoney\.com/,
@@ -46,7 +82,7 @@ module.exports = Controller('Admin/BaseController',function(){
     		where:'',
     		pubTime:'.Info span:first-child',
     		charset:'gbk',
-    		excludeSelector:['>*:not(p)']
+    		excludeContentSelector:['>*:not(p)']
     	},
     	{
     		domain:/finance\.sina\.com\.cn/,
@@ -55,7 +91,7 @@ module.exports = Controller('Admin/BaseController',function(){
     		where:'#media_name',
     		pubTime:'#pub_date',
     		charset:'gbk',
-    		excludeSelector:['script','.finance_app_zqtg','#ad_44099','div:last-child','p:last-child']
+    		excludeContentSelector:['script','.finance_app_zqtg','#ad_44099','div:last-child','p:last-child']
     	}
         // [/news\.10jqka\.com\.cn/,{content:'.art_cnt',title:'.art_head h1',where:'span.where',pubTime:'#pubtime_baidu',charset:'gbk'}]
     ];
@@ -70,14 +106,19 @@ module.exports = Controller('Admin/BaseController',function(){
 		证券之星：http://stock.stockstar.com/ 
 		同花顺，东方财富，腾讯财经，sina财经 
 	*/
+	// 抓取链接
     var configSiteListInfo = [
     	{
     		url: 'http://money.163.com/stock/',
-    		selectors:['.news_struct>*:not(blockquote)']
+    		selectors:[
+    			'.news_importent',
+    			'.news_hot_list',
+    			'.news_struct>*:not(blockquote)'
+    		]
     	}
     ];
-
-    function getSiteInfo(url){
+    // 获取url相关配置
+    function getSiteConfig(url){
     	var host = urlMod.parse(url).hostname;
     	for(var i = 0, len = configSiteInfo.length; i < len; i++){
     		if(configSiteInfo[i].domain.test(host)){
@@ -88,10 +129,10 @@ module.exports = Controller('Admin/BaseController',function(){
     }
     // 获取页面源代码
 	function getPage(url){
-		var siteInfo = getSiteInfo(url);
+		var siteConfig = getSiteConfig(url);
 		var defer = getDefer();
 
-		if(siteInfo == null){
+		if(siteConfig == null){
 			defer.reject();
 			return defer.promise;
 		}
@@ -102,10 +143,10 @@ module.exports = Controller('Admin/BaseController',function(){
 			}else{
 				defer.reject();
 			}
-		},null,siteInfo.charset || 'utf8');
+		},null,siteConfig.charset || 'utf8');
 		return defer.promise;
 	}
-
+	// 抓取链接集合
 	function getUrlList(){
 		for(var i = 0, len = configSiteListInfo.length; i < len; i++){
 			var url = configSiteListInfo[i].url;
@@ -167,8 +208,8 @@ module.exports = Controller('Admin/BaseController',function(){
 		// 分析抓取页面内容
 		capturePage: function(url){
 			var self = this;
-			var siteInfo = getSiteInfo(url);
-			if(siteInfo == null){
+			var siteConfig = getSiteConfig(url);
+			if(siteConfig == null){
 				return getPromise(null,true);
 			}
 			return D('news').getNewsByOriginUrl(url).then(function(affectRow){
@@ -176,27 +217,12 @@ module.exports = Controller('Admin/BaseController',function(){
 					return getPromise(null,true);
 				}
 				return getPage(url).then(function(html){
-					var $ = cheerio.load(html,{decodeEntities:false});
-					var title, content, pubTime, where;
-					title = ($(siteInfo.title).html() || '').trim();
-					pubTime = ($(siteInfo.pubTime).html() || '').trim();
-					where = ($(siteInfo.where).html() || '').trim();					
-
-					var $content = $(siteInfo.content);
-					if(!$content){
-						return getPromise(null,true);
-					}
-
-					var excludeSelector = siteInfo.excludeSelector;
-					for(var i = 0, len = excludeSelector.length; i < len; i++){
-						$content.find(excludeSelector[i]).remove();
-					}
-					content = $content.html().replace(regComment, '').trim();
+					var info = siteConfig.cbInfo(html);
 					var data = {
-						title: title,
-						content: content,
-						pub_time: pubTime,
-						where: where,
+						title: info.title,
+						content: info.content,
+						pub_time: info.pubTime,
+						where: info.where,
 						create_time: utils.YYYYMMDDHHmmss(),
 						origin_url: url
 					}

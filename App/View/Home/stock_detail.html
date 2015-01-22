@@ -4,65 +4,31 @@
 
 {% block header %}
 <style>
-	.form-table {
-		width: 100%;
-		border-collapse: collapse;
-		table-layout: fixed;
-	}
-	.tb-stock-info th {
-		vertical-align: top;
-	}
-	.stock-info .th, .stock-info .td {
-		padding: 10px;
-	}
-	.stock-info .th {
-		color: #B9BABD;
-		font-weight: 100;
-		text-align: right;
-	}
+	.st-mod .section{
+        border-top:0;
+    }
 </style>
 {% endblock %}
 
 {% block page_head %}股票详情{% endblock %}
 
 {% block content %}
-<div class="stock-info">
-	<div class="row">
-		<div class="col-md-4 th">股票名称</div>
-		<div class="col-md-8 td">{{ stockInfo.name }}  <a href="#" class="favour" data-id="{{ stockInfo.id }}">赞<em class="number">{{ stockInfo.favour }}</em></a></div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">股票代码</div>
-		<div class="col-md-8 td">{{ stockInfo.code }}</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">买入价</div>
-		<div class="col-md-8 td">{{ stockInfo.price }}</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">股票类型</div>
-		<div class="col-md-8 td">{{ stockInfo.type }}</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">主题</div>
-		<div class="col-md-8 td">{{ stockInfo.topic }}</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">推荐星级</div>
-		<div class="col-md-8 td">{{ stockInfo.rating }}</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">推荐人</div>
-		<div class="col-md-8 td">{{ stockInfo.author }}</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">推荐理由</div>
-		<div class="col-md-8 td">{{ stockInfo.reason }}</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4 th">时间</div>
-		<div class="col-md-8 td">{{ stockInfo.create_time }}</div>
-	</div>
+ <div class="st-mod stock-mod">
+    <div class="section">
+        <div class="title">
+            <span class="name"><a href="/stock/detail?id={{ stockInfo.id }}">{{ stockInfo.name }}({{ stockInfo.code }})</a></span>
+            <span class="rating"><em class="rating{{ stockInfo.rating }}"></em></span>
+            <span class="price">{{ stockInfo.price }}</span>
+        </div>
+        <div class="info">
+            <span class="topic">主题：{{ stockInfo.topic }}</span><ins class="ins">|</ins>
+            <span class="type">类型：{{ stockInfo.type }}</span><ins class="ins">|</ins>
+            <span class="author">分析师：{{ stockInfo.author }}</span>
+        </div>
+        {% if stockInfo.reason != "" %}
+        <div class="reason">分析：{{ stockInfo.reason }}</div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
 	

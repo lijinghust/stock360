@@ -3,22 +3,114 @@
 {% block title %}index{% endblock %}
 
 {% block header %}
+<style>
+.article{
+    padding:0 40px 10px;
+    background:white;
+}
+.article .pageTop {
+    padding: 40px 0;
+}
+.article .pageTop h1 {
+    color: #292929;
+    font-size: 32px;
+    line-height: 1.2;
+    font-family: "microsoft yahei";
+    font-weight:normal;
+}
+.article .pageInfo {
+    height: 28px;
+    line-height: 28px;
+    border-bottom: dotted 1px #D8D8D8;
+}
+.article .pageInfo .pi-author {
+    float: left;
+    font-family: "NSimSun";
+    font-size: 12px;
+    color: #888888;
+}
+.article .pageInfo .pi-comment {
+    float: right;
+    padding-left: 10px;
+    border-left: solid 1px #E0E0E0;
+    height: 18px;
+    margin-top: 5px;
+    line-height: 18px;
+}
+.article .pageInfo .pi-author span {
+    margin-right: 1px;
+}
+.article .pageInfo .pi-author i {
+    margin: 0 3px;
+    color: #7e7d7d;
+}
+.article .pageInfo .pi-author a {
+    color: #272727;
+}
+.article .pageInfo .pi-comment {
+    float: right;
+    padding-left: 10px;
+    border-left: solid 1px #E0E0E0;
+    height: 18px;
+    margin-top: 5px;
+    line-height: 18px;
+}
+.article .pageInfo .pi-comment a {
+    font-size: 12px;
+    color: #ed5565;
+}
+.article .pageInfo .pi-comment a span {
+    margin: 2px;
+}
+.article .pageCont{
+    line-height:1.8;
+    font-family: "microsoft yahei";
+    color: #5a5a5a;
+}
+.article .pageCont p {
+    margin: 1em 0 0;
+    font-size: 16px;
+    text-indent:2em;
+}
 
+
+/*响应式布局公共样式*/
+@media screen and (max-width: 780px){
+    .article{padding: 0 10px 10px;}
+}
+
+@media screen and (max-width: 480px){
+    /*变换字体*/
+    .article .pageTop{padding:20px 0;}
+    .article .pageTop h1{font-size: 20px;font-size: 2rem;font-weight: normal;}
+    .article .pageCont{font-size: 16px;font-size: 1.6rem; }
+}
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="st-mod">        
-    <div class="section">
-        <div class="title">
-            <h3><a href="/news/detail?id={{ item.id }}">{{ data.title }}</a></h3>
-        </div>
-        <div class="info">
-            {{ data.content }}
-        </div>
+<div class="article">
+    <div class="pageTop">
+        <h1>{{ data.title }}</h1>
     </div>
+    <!-- pageTop END-->
+    <div class="pageInfo clr">
+        <div class="pi-author">
+            <span>2015-01-18</span>
+            <span>11:34</span>
+            <i style="color:#FD5D3C;">原创</i>
+            <a href="http://www.leiphone.com/author/%E5%90%B4%E5%BE%B7%E6%96%B0" target="_blank">吴德新</a>
+        </div>
+        <!-- pi-author END -->
+        <div class="pi-comment">
+            <a href="javascript:void(0);"><span>1</span><span>条评论</span></a>
+        </div>
+        <!-- pi-comment END -->
+    </div>
+    
+    <div class="pageCont">{{ data.content }}</div>
 </div>
-	<!-- <h1>{{ data.title }}</h1>
-	{{ data.content }} -->
+
 {% endblock %}
 	
 {% block footer %}

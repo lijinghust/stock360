@@ -1,42 +1,44 @@
 {% extends '../Common/base.html' %}
 
-{% block title %}推荐股票{% endblock %}
+{% block title %}股票精选{% endblock %}
 
 {% block header %}
 <style type="text/css">
-	#stock-mod{
-		margin-bottom:20px;
+	.stock-mod{
+		margin-bottom:15px;
 	}
+    .st-mod .section{
+        border-top:0;
+    }
 </style>
 {% endblock %}
 {% block page_head %}
-    股票
+    股票精选
 {% endblock %}
 {% block page_head_des %}
-    第一时间了解移动互联网领域的新消息新动态。
+    给您推荐分析师精心筛选的股票
 {% endblock %}
 
 {% block content %}
-<div class="st-mod" id="stock-mod">        
-    <h2 class="sub-header">今日推荐 <a class="more" href="/stock">>>更多</a></h2>
     {% for item in stockList %}
-    <div class="section">
-        <div class="title">
-            <span class="name"><a href="/stock/detail?id={{ item.id }}">{{ item.name }}({{ item.code }})</a></span>
-            <span class="rating"><em class="rating{{ item.rating }}"></em></span>
-            <span class="price">{{ item.price }}</span>
+    <div class="st-mod stock-mod">
+        <div class="section">
+            <div class="title">
+                <span class="name"><a href="/stock/detail?id={{ item.id }}">{{ item.name }}({{ item.code }})</a></span>
+                <span class="rating"><em class="rating{{ item.rating }}"></em></span>
+                <span class="price">{{ item.price }}</span>
+            </div>
+            <div class="info">
+                <span class="topic">主题：{{ item.topic }}</span><ins class="ins">|</ins>
+                <span class="type">类型：{{ stockTypeConf[item.type] }}</span><ins class="ins">|</ins>
+                <span class="author">分析师：{{ item.author }}</span>
+            </div>
+            {% if item.reason != "" %}
+            <div class="reason">分析：{{ item.reason }}</div>
+            {% endif %}
         </div>
-        <div class="info">
-            <span class="topic">主题：{{ item.topic }}</span><ins class="ins">|</ins>
-            <span class="type">类型：{{ stockTypeConf[item.type] }}</span><ins class="ins">|</ins>
-            <span class="author">分析师：{{ item.author }}</span>
-        </div>
-        {% if item.reason != "" %}
-        <div class="reason">分析：{{ item.reason }}</div>
-        {% endif %}
     </div>
     {% endfor %}
-</div>
 {% endblock %}
 	
 {% block footer %}
