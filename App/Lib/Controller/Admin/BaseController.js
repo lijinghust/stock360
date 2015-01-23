@@ -13,17 +13,18 @@ module.exports = Controller(function(){
     	//其他的通用逻辑
     },
     __before: function(){
-        if(this.http.action === 'login'){
-            return;
-        }
-    	var self = this;
-        // console.log(this.http);
+        var self = this;
         var cates = {
             group: this.http.group.toLowerCase(),
             category: this.http.controller.toLowerCase(),
             action: this.http.action.toLowerCase()
         }
         self.assign("cates",cates);
+        
+        if(this.http.action === 'login'){
+            return;
+        }
+        // console.log(this.http);
     	return this.session("userInfo").then(function(userInfo){
             if(isEmpty(userInfo)){
                 //ajax访问返回一个json的错误信息

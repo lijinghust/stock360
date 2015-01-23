@@ -13,7 +13,7 @@
 		  <div class="container">
 		    <!-- Brand and toggle get grouped for better mobile display -->
 		    <div class="navbar-header">
-		      <a class="navbar-brand" href="#">管理中心</a>
+		      <a class="navbar-brand" href="/admin">管理中心</a>
 		    </div>
 
 		    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -58,11 +58,17 @@
 		</div> -->
 		<div class="container">
 			<div class="row">
+			{% if cates.category != "user" && cates.category != "index" %}
 				<div class="col-md-3">
 					<nav>
 						<ul class="nav nav-pills nav-stacked" role="tablist">
+						{% if cates.category == "news" %}
+							<li role="presentation"{% if cates.action == "index" %} class="active"{% endif %}><a href="/{{ cates.group }}/{{ cates.category }}/index">url抓取</a></li>
+							<li role="presentation"{% if cates.action == "capture" %} class="active"{% endif %}><a href="/{{ cates.group }}/{{ cates.category }}/capture">批量抓取</a></li>
+						{% else %}
 							<li role="presentation"{% if cates.action == "index" %} class="active"{% endif %}><a href="/{{ cates.group }}/{{ cates.category }}/index">列表</a></li>
 							<li role="presentation"{% if cates.action == "add" %} class="active"{% endif %}><a href="/{{ cates.group }}/{{ cates.category }}/add">添加</a></li>
+						{% endif %}
 						</ul>
 					</nav>
 				</div>
@@ -75,6 +81,13 @@
 				{% endblock %}
 				</div>
 			</div>
+		{% else %}
+			<div class="col-md-12">
+				{% block content %}
+
+				{% endblock %}
+			</div>
+		{% endif %}
 		</div>		
 	</body>
 	<script src="http://s7.qhimg.com/lib/jquery/1102.js"></script>

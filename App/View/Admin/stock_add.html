@@ -3,7 +3,8 @@
 {% block title %}index{% endblock %}
 
 {% block header %}
-
+<script charset="utf-8" src="/resource/js/editor/kindeditor.js"></script>
+<script charset="utf-8" src="/resource/js/editor/lang/zh_CN.js"> </script>
 {% endblock %}
 
 {% block page_head %}推荐股票{% endblock %}
@@ -49,7 +50,10 @@
 	  <div class="form-group">
 	    <label for="inputPassword3" class="col-sm-2 control-label">推荐理由</label>
 	    <div class="col-sm-10">
-	    	<textarea name="reason" class="form-control" rows="4"></textarea>
+	    	<!-- <textarea name="reason" class="form-control" rows="4"></textarea> -->
+	    	<textarea id="editor_id" name="content" style="width:700px;height:300px;">
+			&lt;strong&gt;HTML内容&lt;/strong&gt;
+			</textarea>
 	    </div>
 	  </div>
 	  <div class="form-group">
@@ -62,11 +66,16 @@
 	
 {% block footer %}
 	<script>
+		KindEditor.ready(function(K) {
+            editor = K.create('#editor_id');
+        });
+
 		$("#form").on('submit',function(e){
 			e.preventDefault();
 			e.stopPropagation();
 
-			$.post('/admin/stock/_add',$(this).serialize(),function(data){
+			var params = $(this).serialize() + '&reason=' + editor.html();
+			$.post('/admin/stock/_add',$(this).serialize() + editor.html(),function(data){
 				console.log(data);
 			});
 		});

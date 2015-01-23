@@ -5,9 +5,24 @@
 module.exports = Controller(function(){
   "use strict";
   return {
+    __before: function(){
+        var self = this;
+        var cates = {
+            group: this.http.group.toLowerCase(),
+            category: this.http.controller.toLowerCase(),
+            action: this.http.action.toLowerCase()
+        }
+        this.assign("cates",cates);
+
+        return this.session('userInfo').then(function(userInfo){
+            if(!isEmpty(userInfo)){
+                self.redirect("/admin");
+            }
+        })
+    },
     loginAction: function(){
       //render View/Home/list_index.html file
-      this.assign("user",{"name":"lijing"});
+      // this.assign("user",{"name":"lijing"});
       this.display();
     },
     regAction: function(){
@@ -16,7 +31,7 @@ module.exports = Controller(function(){
     logoutAction: function(){
         var self = this;
         this.session().then(function(){
-            self.redirect('/');
+            self.redirect('/admin');
         });
     },
     // 注册接口

@@ -18,7 +18,7 @@ module.exports = Controller('Admin/BaseController',function(){
         /* {domain:域名，
         	content:内容，
         	title:标题,
-        	where:摘自，
+        	source:摘自，
         	pubTime:时间，
         	charset:编码方式（gbk）
            }
@@ -27,7 +27,7 @@ module.exports = Controller('Admin/BaseController',function(){
         	domain:/money\.163\.com/,
         	title:'h1#h1title',
         	content:'#endText',
-        	where:'#ne_article_source',
+        	source:'#ne_article_source',
         	pubTime:'.ep-time-soure',
         	charset:'gbk',
         	excludeContentSelector:['>*:not(p)'],// 去除内容中的非p元素
@@ -35,7 +35,7 @@ module.exports = Controller('Admin/BaseController',function(){
         		var siteConfig = this;
         		var $ = cheerio.load(html,{decodeEntities:false});
 
-        		var title, content, pubTime, where;
+        		var title, content, pubTime, source, source_url;
 				title = ($(siteConfig.title).html() || '').trim();
 
 				pubTime = ($(siteConfig.pubTime).html() || '').trim().match(regTime);
@@ -45,7 +45,8 @@ module.exports = Controller('Admin/BaseController',function(){
 				}else{
 					pubTime = '';
 				}
-				where = ($(siteConfig.where).html() || '').trim();					
+				source = ($(siteConfig.source).html() || '').trim();
+				source_url = ($(siteConfig.source).attr('href') || '').trim();
 
 				var $content = $(siteConfig.content);
 				if(!$content){
@@ -61,7 +62,8 @@ module.exports = Controller('Admin/BaseController',function(){
 				return {
 					title: title,
 					content: content,
-					where: where,
+					source: source,
+					source_url: source_url,
 					pubTime: pubTime
 				}
         	}
@@ -70,7 +72,7 @@ module.exports = Controller('Admin/BaseController',function(){
     		domain:/finance\.qq\.com/,
     		title:'h1',
     		content:'#Cnt-Main-Article-QQ',
-    		where:'span.where',
+    		source:'span.where',
     		pubTime:'.pubTime',
     		charset:'gbk',
     		excludeContentSelector:[]
@@ -79,7 +81,7 @@ module.exports = Controller('Admin/BaseController',function(){
     		domain:/finance\.eastmoney\.com/,
     		title:'.newText h1',
     		content:'#ContentBody',
-    		where:'',
+    		source:'',
     		pubTime:'.Info span:first-child',
     		charset:'gbk',
     		excludeContentSelector:['>*:not(p)']
@@ -88,12 +90,12 @@ module.exports = Controller('Admin/BaseController',function(){
     		domain:/finance\.sina\.com\.cn/,
     		title:'#artibodyTitle',
     		content:'#artibody',
-    		where:'#media_name',
+    		source:'#media_name',
     		pubTime:'#pub_date',
     		charset:'gbk',
     		excludeContentSelector:['script','.finance_app_zqtg','#ad_44099','div:last-child','p:last-child']
     	}
-        // [/news\.10jqka\.com\.cn/,{content:'.art_cnt',title:'.art_head h1',where:'span.where',pubTime:'#pubtime_baidu',charset:'gbk'}]
+        // [/news\.10jqka\.com\.cn/,{content:'.art_cnt',title:'.art_head h1',source:'span.where',pubTime:'#pubtime_baidu',charset:'gbk'}]
     ];
 
 	/* 
@@ -113,7 +115,11 @@ module.exports = Controller('Admin/BaseController',function(){
     		selectors:[
     			'.news_importent',
     			'.news_hot_list',
-    			'.news_struct>*:not(blockquote)'
+    			'.news_struct:nth-child(1)>*:not(blockquote)',
+    			'.news_struct:nth-child(2)>*:not(blockquote)',
+    			'.news_struct:nth-child(4)>*:not(blockquote)',
+    			'.news_struct:nth-child(6)>*:not(blockquote)',
+    			'.news_struct:nth-child(9)>*:not(blockquote)'
     		]
     	}
     ];
@@ -222,7 +228,8 @@ module.exports = Controller('Admin/BaseController',function(){
 						title: info.title,
 						content: info.content,
 						pub_time: info.pubTime,
-						where: info.where,
+						source: info.source,
+						source_url: info.source_url,
 						create_time: utils.YYYYMMDDHHmmss(),
 						origin_url: url
 					}
