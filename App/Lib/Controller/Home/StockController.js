@@ -4,6 +4,8 @@
  */
 var moment = require("moment");
 var conf_stock_type = require(CONF_PATH + "/stock_type.js");
+var cheerio = require('cheerio');
+var regConf = require(CONF_PATH + '/reg.js');
 
 module.exports = Controller("Home/BaseController", function(){
   "use strict";
@@ -12,7 +14,14 @@ module.exports = Controller("Home/BaseController", function(){
     	var self = this;
       //render View/Home/index_index.html file
       return D("stock").getStocksLatestList().then(function(d){
-      	self.assign('stockList',d);
+        var stockList = [];
+        for(var i = 0, len = d.length; i < len; i++){
+          var stock = d[i];
+          var $ = cheerio.load(stock.reason,{decodeEntities:false});
+          stock.reason = $('p').text().replace(regConf.blank, '').slice(0,70) + '...';
+          stockList.push(stock);
+        }
+      	self.assign('stockList',stockList);
         self.assign('stockTypeConf',conf_stock_type);
       	self.display();
       });

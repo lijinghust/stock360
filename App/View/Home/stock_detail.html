@@ -4,8 +4,13 @@
 
 {% block header %}
 <style>
-	.st-mod .section{
+	.stock-mod .section{
         border-top:0;
+    }
+    .stock-mod .reason p{
+        text-indent:2em;
+        margin-top:10px;
+        margin-bottom:25px;
     }
 </style>
 {% endblock %}
@@ -17,7 +22,8 @@
     <div class="section">
         <div class="title">
             <span class="name"><a href="/stock/detail?id={{ stockInfo.id }}">{{ stockInfo.name }}({{ stockInfo.code }})</a></span>
-            <span class="rating"><em class="rating{{ stockInfo.rating }}"></em></span>
+            {% set rating = stockInfo.rating * 10 %}
+            <span class="rating"><em class="rating{{ rating }}"></em></span>
             <span class="price">{{ stockInfo.price }}</span>
         </div>
         <div class="info">

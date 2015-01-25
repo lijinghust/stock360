@@ -6,7 +6,7 @@ module.exports = {
   db_port: '', // 端口
   db_name: 'test', // 数据库名
   db_user: 'root', // 用户名
-  db_pwd: '123', // 密码
+  db_pwd: '111111', // 密码
   db_prefix: '', // 数据库表前缀
   
   tpl_file_suffix: ".html",

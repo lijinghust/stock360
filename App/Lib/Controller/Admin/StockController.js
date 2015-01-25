@@ -2,6 +2,10 @@
  * controller
  * @return 
  */
+var conf_stock_type = require(CONF_PATH + '/stock_type.js');
+var conf_stock_star = require(CONF_PATH + '/stock_star.js');
+var util = require('utility');
+
 module.exports = Controller("Admin/BaseController", function(){
   "use strict";
   return {
@@ -15,14 +19,20 @@ module.exports = Controller("Admin/BaseController", function(){
       });
     },
     addAction: function(){
+      this.assign('conf_stock_type', conf_stock_type);
+      this.assign('conf_stock_star', conf_stock_star);
     	this.display();
     },
     _addAction: function(){
+      var self = this;
       var data = this.post();
+      // console.log(data);
+      // return;
       data.author = this.userInfo.email;
-      data.create_time = (new Date()).toLocaleString();
+      data.create_time = util.YYYYMMDDHHmmss();
       return D('stock').addStock(data).then(function(d){
         // console.log(d);
+        self.success(d);
       });
     },
     listAction: function(){

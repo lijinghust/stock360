@@ -42,6 +42,10 @@
 			border-top: 1px solid #EDEDED;
 			padding: 10px 20px;
 		}
+
+		.st-mod .detail{
+			padding-left:15px;
+		}
 		/* end module */
 
 		.ins{
@@ -133,7 +137,8 @@
 	        margin:10px 10px 0 10px;
 	        font-size:16px;
 	    }
-	    .stock-mod .section span{
+	    .stock-mod .section .title span,
+	    .stock-mod .section .info span{
 	        display:inline-block;
 	    }
 	    .stock-mod .section .title .name{
@@ -174,8 +179,7 @@
 	        font-weight:normal;
 	        font-size:22px;
 	    }
-	    .news-mod .info .detail{
-	    }
+	    
 	    .news-mod a:hover{
 	        color:red;
 	        text-decoration:underline;
@@ -232,12 +236,12 @@
 		</nav>
 		<div id="container">
 			<div class="container">
-			{% if http.controller == "Index" && http.action == "index" %}
+			{% if cates.category == "extension" %}
 				<div class="row">
 					{% block content %}{% endblock %}				
 				</div>
 			{% else %}
-				{% if http.action == "index" %}
+				{% if cates.category != "index" && cates.action == "index" %}
 				<div class="row">
 					<div class="col-md-12">						
 						<div class="page-title">
@@ -266,12 +270,12 @@
 					            {% endfor %}
 					        </div>
 					    </div>
-						<div class="st-mod news-mod">        
+						<!-- <div class="st-mod news-mod">        
 					        <h2 class="sub-header">热门咨询 <a class="more" href="/news">>>更多</a></h2>
 					        <div class="section">
 					            
 					        </div>
-					    </div>
+					    </div> -->
 					</div>
 				</div>
 			{% endif %}
