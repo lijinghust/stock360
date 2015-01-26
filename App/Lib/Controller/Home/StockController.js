@@ -14,6 +14,7 @@ module.exports = Controller("Home/BaseController", function(){
     	var self = this;
       //render View/Home/index_index.html file
       return D("stock").getStocksLatestList().then(function(d){
+        console.log(d);
         var stockList = [];
         for(var i = 0, len = d.length; i < len; i++){
           var stock = d[i];
@@ -35,6 +36,13 @@ module.exports = Controller("Home/BaseController", function(){
         data.type = conf_stock_type[data.type];
 
         self.assign("stockInfo",data);
+        self.display();
+      });
+    },
+    historyAction: function(){
+      var self = this;
+      D('stock').getStocksHistory().then(function(d){
+        self.assign("stockHistory",d);
         self.display();
       });
     },

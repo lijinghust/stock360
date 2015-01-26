@@ -1,3 +1,5 @@
+var util = require('utility');
+
 module.exports = Model(function(){
 	'use strict';
 	return {
@@ -22,7 +24,17 @@ module.exports = Model(function(){
 			if(count == undefined){
 				count = 50;
 			}
-			return D('stock').limit(offset,count).select();
+			return D('stock').distinct('date').order('date desc').find().then(function(d){
+				// console.log('+++++++++++++++')
+				// console.log(util.YYYYMMDD(d['date']));
+				// console.log('-------------')
+				var latestDate = util.YYYYMMDD(d['date']);
+				return D('stock').where({date:latestDate}).select();
+			})
+			// return D('stock').limit(offset,count).select();
+		},
+		getStocksHistory: function(){
+			return D('stock').distinct('date').order('date desc').select();
 		},
 		// 点赞
 		updateStockFavour: function(id){
