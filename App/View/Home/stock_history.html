@@ -20,26 +20,13 @@
 {% endblock %}
 
 {% block content %}
-    {% for item in stockList %}
     <div class="st-mod stock-mod">
         <div class="section">
-            <div class="title">
-                <span class="name"><a href="/stock/detail?id={{ item.id }}">{{ item.name }}({{ item.code }})</a></span>
-                {% set rating = item.rating * 10 %}
-                <span class="rating"><em class="rating{{ rating }}"></em></span>
-                <span class="price">{{ item.price }}</span>
-            </div>
-            <div class="info">
-                <span class="topic">主题：{{ item.topic }}</span><ins class="ins">|</ins>
-                <span class="type">类型：{{ stockTypeConf[item.type] }}</span><ins class="ins">|</ins>
-                <span class="author">分析师：{{ item.author }}</span>
-            </div>
-            {% if item.reason != "" %}
-            <div class="reason">分析：{{ item.reason }}<a class="detail" href="/stock/detail?id={{ item.id }}" target="_blank">查看详情</a></div>
-            {% endif %}
+        {% for date in dateList %}
+            <a href="/stock/index?date={{ date }}" class="btn btn-default" role="button">{{ date }}</a>
+        {% endfor %}
         </div>
     </div>
-    {% endfor %}
 {% endblock %}
 	
 {% block footer %}
