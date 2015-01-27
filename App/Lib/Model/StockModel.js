@@ -26,13 +26,9 @@ module.exports = Model(function(){
 				count = 50;
 			}
 			return D('stock').distinct('date').order('date desc').find().then(function(d){
-				// console.log('+++++++++++++++')
-				// console.log(util.YYYYMMDD(d['date']));
-				// console.log('-------------')
 				var latestDate = util.YYYYMMDD(d['date']);
 				return D('stock').where({date:latestDate}).select();
 			})
-			// return D('stock').limit(offset,count).select();
 		},
 		/* 按照日期获取股票数据 */
 		getStocksByDate: function(date){

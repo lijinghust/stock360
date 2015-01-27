@@ -12,13 +12,6 @@
 	
 {% block footer %}
 	<script>
-		$("#form").on('submit',function(e){
-			e.preventDefault();
-			e.stopPropagation();
-
-			$.post('http://localhost/stock/api/stock/add.php',$(this).serialize(),function(data){
-				console.log(data);
-			});
-		});
+		
 	</script>
 {% endblock %}	

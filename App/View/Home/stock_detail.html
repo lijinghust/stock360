@@ -49,21 +49,21 @@
 	
 {% block footer %}
 	<script>
-	$(".favour").on("click",function(e){
-		e.preventDefault();
+	// $(".favour").on("click",function(e){
+	// 	e.preventDefault();
 
-		var self = $(this);
-		var id = self.data("id");
-		var number = parseInt(self.find(".number").html());
+	// 	var self = $(this);
+	// 	var id = self.data("id");
+	// 	var number = parseInt(self.find(".number").html());
 
-		$.post('/stock/_favour',{id:id},function(data){
-			console.log(data);
-			if(data.errno == 0){
-				self.find(".number").html(number + 1);
-				// TODO  增加简单判断：写入cookie，判断无cookie方可点赞
-			}
-		})
-	})
+	// 	$.post('/stock/_favour',{id:id},function(data){
+	// 		console.log(data);
+	// 		if(data.errno == 0){
+	// 			self.find(".number").html(number + 1);
+	// 			// TODO  增加简单判断：写入cookie，判断无cookie方可点赞
+	// 		}
+	// 	})
+	// })
 
 	</script>
 {% endblock %}	
