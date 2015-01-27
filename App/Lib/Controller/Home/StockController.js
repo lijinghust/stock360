@@ -13,8 +13,16 @@ module.exports = Controller("Home/BaseController", function(){
     indexAction: function(){
     	var self = this;
       //render View/Home/index_index.html file
-      return D("stock").getStocksLatestList().then(function(d){
-        console.log(d);
+      var date = this.get('date');
+      var model = null;
+      if(date){
+        model = D('stock').getStocksByDate(date);
+      }else{
+        model = D('stock').getStocksLatestList();
+        date = moment().format("YYYY-MM-DD");
+      }
+      return model.then(function(d){
+        // console.log(d);
         var stockList = [];
         for(var i = 0, len = d.length; i < len; i++){
           var stock = d[i];
@@ -22,6 +30,7 @@ module.exports = Controller("Home/BaseController", function(){
           stock.reason = $('p').text().replace(regConf.blank, '').slice(0,70) + '...';
           stockList.push(stock);
         }
+        self.assign('date', date);
       	self.assign('stockList',stockList);
         self.assign('stockTypeConf',conf_stock_type);
       	self.display();
@@ -41,8 +50,16 @@ module.exports = Controller("Home/BaseController", function(){
     },
     historyAction: function(){
       var self = this;
-      D('stock').getStocksHistory().then(function(d){
-        self.assign("stockHistory",d);
+      D('stock').getStocksHistory().then(function(data){
+        var dateList = [];
+        // console.log(data)
+        for(var item in data){
+          // console.log(data[item])
+          var date = moment(data[item].date).format("YYYY-MM-DD");
+          dateList.push(date);
+        }
+        console.log(dateList)
+        self.assign("dateList",dateList);
         self.display();
       });
     },
