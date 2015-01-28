@@ -6,8 +6,8 @@ PM2='/usr/local/bin/pm2';
 PRJ_PATH='/home/wwwroot/www.stock360.cn';
 
 ACTION=$1;
-FILE=$PRJ_PATH/src/www/index.js;
-LOG=$PRJ_PATH/src/task/crontab.log;
+FILE=$PRJ_PATH/www/index.js;
+LOG=$PRJ_PATH/task/crontab.log;
 
 # usage
 usage() {
