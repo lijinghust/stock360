@@ -17,6 +17,7 @@ module.exports = Model(function(){
 		getStocksByUser: function(user){
 			return D('stock').where({author:user}).order("create_time desc").select();
 		},
+		/* 获取最近一期的股票数据 */
 		getStocksLatestList: function(offset,count){
 			if(offset == undefined){
 				offset = 0;
@@ -25,14 +26,18 @@ module.exports = Model(function(){
 				count = 50;
 			}
 			return D('stock').distinct('date').order('date desc').find().then(function(d){
-				// console.log('+++++++++++++++')
-				// console.log(util.YYYYMMDD(d['date']));
-				// console.log('-------------')
 				var latestDate = util.YYYYMMDD(d['date']);
 				return D('stock').where({date:latestDate}).select();
 			})
-			// return D('stock').limit(offset,count).select();
 		},
+		/* 按照日期获取股票数据 */
+		getStocksByDate: function(date){
+			if(!date){
+				date = util.YYYYMMDD();
+			}
+			return D('stock').where({date:date}).select();
+		},
+		/* 获取共有多少期股票数据 */
 		getStocksHistory: function(){
 			return D('stock').distinct('date').order('date desc').select();
 		},

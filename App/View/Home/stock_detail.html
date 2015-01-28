@@ -12,12 +12,21 @@
         margin-top:10px;
         margin-bottom:25px;
     }
+    .page-header{
+        border:solid 1px #e7e7e7;
+        background:white;
+        padding:0 20px;
+        margin-top:0;
+    }
 </style>
 {% endblock %}
 
 {% block page_head %}股票详情{% endblock %}
 
 {% block content %}
+<div class="page-header">
+  <h1><a href="/stock/history">历史推荐</a></small></h1>
+</div>
  <div class="st-mod stock-mod">
     <div class="section">
         <div class="title">
@@ -40,21 +49,21 @@
 	
 {% block footer %}
 	<script>
-	$(".favour").on("click",function(e){
-		e.preventDefault();
+	// $(".favour").on("click",function(e){
+	// 	e.preventDefault();
 
-		var self = $(this);
-		var id = self.data("id");
-		var number = parseInt(self.find(".number").html());
+	// 	var self = $(this);
+	// 	var id = self.data("id");
+	// 	var number = parseInt(self.find(".number").html());
 
-		$.post('/stock/_favour',{id:id},function(data){
-			console.log(data);
-			if(data.errno == 0){
-				self.find(".number").html(number + 1);
-				// TODO  增加简单判断：写入cookie，判断无cookie方可点赞
-			}
-		})
-	})
+	// 	$.post('/stock/_favour',{id:id},function(data){
+	// 		console.log(data);
+	// 		if(data.errno == 0){
+	// 			self.find(".number").html(number + 1);
+	// 			// TODO  增加简单判断：写入cookie，判断无cookie方可点赞
+	// 		}
+	// 	})
+	// })
 
 	</script>
 {% endblock %}	
