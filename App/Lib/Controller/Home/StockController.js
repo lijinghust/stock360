@@ -39,7 +39,7 @@ module.exports = Controller("Home/BaseController", function(){
     detailAction: function(){
       var self = this;
       var id = this.get("id");
-      D("stock").getStock(id).then(function(d){
+      return D("stock").getStock(id).then(function(d){
         var data = d[0];
         data.create_time = moment(data.create_time).format("YYYY-MM-DD HH:mm");
         data.type = conf_stock_type[data.type];
@@ -50,7 +50,7 @@ module.exports = Controller("Home/BaseController", function(){
     },
     historyAction: function(){
       var self = this;
-      D('stock').getStocksHistory().then(function(data){
+      return D('stock').getStocksHistory().then(function(data){
         var dateList = [];
         // console.log(data)
         for(var item in data){
