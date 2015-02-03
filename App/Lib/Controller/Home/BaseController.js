@@ -26,7 +26,7 @@ module.exports = Controller(function(){
             action: this.http.action.toLowerCase()
         }
         self.assign("cates",cates);
-        D('weixin').getWeixinList().then(function(data){
+        return D('weixin').getWeixinList().then(function(data){
             self.assign('weixinList', data);
         });
     }
