@@ -233,11 +233,16 @@
 					var val = "";
 					var el = null;
 					if($sug.find(".hover").length){
-						el = $sug.find(".hover .sug-cont");
+						el = $sug.find(".hover");
 					}else{
-						el = $sug.find(".sug-item .sug-cont").eq(0);
+						el = $sug.find(".sug-item").eq(0);
 					}
-					val = el.parent(".sug-item").attr('data-pre') + "  " + el.html();
+
+					var arr = [];
+					el.find("span").each(function(i,item){
+						arr.push($(item).html());
+					})
+					val = el.attr('data-pre') + "  " + arr.join("  ") + el.attr('data-type');
 					
 					t.config.submitCallback(val);
 					t.hide();
@@ -277,9 +282,17 @@
 
 			/* suggest条目点击 */
 			$sug.delegate('.sug-item','click',function(e){
-				$(this).find('.sug-plus').trigger('touchend');
+				var el = $(this);
+				el.find('.sug-plus').trigger('touchend');
 				// $form.submit();
-				var val = $(this).attr("data-pre") + "  " + $(this).find(".sug-cont").html();
+
+				var arr = [];
+				el.find("span").each(function(i,item){
+					arr.push($(item).html());
+				})
+				val = el.attr('data-pre') + "  " + arr.join("  ") + el.attr('data-type');
+
+				var val = el.attr("data-pre") + "  " + arr.join("  ");
 				t.config.submitCallback(val);
 				t.hide();
 				$input.val('');
@@ -312,7 +325,13 @@
 			if(nextIndex != -1){
 				curItem.addClass(focusClass);
 			}			
-			$input.val(curItem.find(".sug-cont").html());
+
+			var arr = [];
+			curItem.find("span").each(function(i,item){
+				arr.push($(item).html());
+			})
+
+			$input.val(arr.join("  "));
 		},
 		/**
 		 * _renderList 渲染suggest列表

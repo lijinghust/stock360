@@ -6,8 +6,8 @@
 	/* 搜索suggest */
 	var sug = new Suggest({
 		template : {
-			item : '<div class="sug-item" data-pre="{0}" data-item="{0}{1}">'+
-						'<span class="sug-cont">{1}  {2}  {3}</span>'+
+			item : '<div class="sug-item" data-pre="{0}" data-item="{0}{1}" data-type={4}>'+
+						'<span class="key">{1}</span><span class="name">{2}</span><span class="pinyin">{3}</span>'+
 						// '<span class="sug-plus"></span>'+
 					'</div>'
 		},
@@ -21,7 +21,8 @@
 			var queryObj = {
 				key : arr[0]+arr[1],
 				name : arr[2],
-				pinyin : arr[3]
+				pinyin : arr[3],
+				type : arr[4]
 			}
 			if(LocalData.num() >= 50){
 				alert("您的自选股中已经达到50个的上限，请删除一些再添加");
