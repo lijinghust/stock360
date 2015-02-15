@@ -242,7 +242,8 @@
 					el.find("span").each(function(i,item){
 						arr.push($(item).html());
 					})
-					val = el.attr('data-pre') + "  " + arr.join("  ") + el.attr('data-type');
+					arr.push(el.attr('data-type'));
+					val = el.attr('data-pre') + "  " + arr.join("  ");
 					
 					t.config.submitCallback(val);
 					t.hide();
@@ -290,7 +291,7 @@
 				el.find("span").each(function(i,item){
 					arr.push($(item).html());
 				})
-				val = el.attr('data-pre') + "  " + arr.join("  ") + el.attr('data-type');
+				arr.push(el.attr('data-type'));
 
 				var val = el.attr("data-pre") + "  " + arr.join("  ");
 				t.config.submitCallback(val);
@@ -375,8 +376,11 @@
 				t.hide();
 				return t;
 			}
-
+			var regFilter = /^(sz|sh|jj)$/i;
 			for (i = 0, len = data.length; (i <= len-1)&&(i < sugMaxNum); i++) {
+				if(!regFilter.test(data[i][0])){
+					continue;
+				}
 				htmlStr.push(tmpl( tpl , data[i] ));
 			}
 			$list.html(htmlStr.join(''));

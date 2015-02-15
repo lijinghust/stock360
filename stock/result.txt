@@ -1,0 +1,10 @@
+// 按股票，指数，各种基金，美股，港股的sug结果找规律
+v_hint="sh~000001~上证指数~szzs~ZS^sz~000001~平安银行~payh~GP-A^jj~000001~华夏成长混合~hxczhh~KJ"
+
+v_hint="sz~150153~创业板B~cybb~FJ-CX"
+
+v_hint="jj~519809~\u5609\u5b9e\u4fdd\u8bc1\u91d1\u573a\u5185\u7533\u8d4e\u8d27\u5e01B~jsbzjcnsshbb~KJ-HB"
+
+v_hint="us~qihu.n~qihoo 360 technology co ltd~*~GP"
+
+v_hint="hk~00700~腾讯控股~txkg~GP^hk~16206~腾讯高盛五三购A~txgswsga~QZ^hk~15400~腾讯汇丰五六购A~txhfwlga~QZ^hk~19171~腾讯瑞信五六购C~txrxwlgc~QZ^hk~19172~腾讯瑞银六六购B~txryllgb~QZ^hk~64148~腾讯瑞银五七牛B~txrywqnb~QZ-NX^hk~19761~腾讯麦银五九购C~txmywjgc~QZ^hk~19760~腾讯麦银五九购B~txmywjgb~QZ^hk~19763~腾讯麦银五九购E~txmywjge~QZ^hk~19762~腾讯麦银五九购D~txmywjgd~QZ
