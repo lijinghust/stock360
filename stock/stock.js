@@ -235,6 +235,8 @@ function getLinkUrl(obj){
 			this.addStockData(obj);
 
 			LocalData.add(obj);
+
+			this.updateStockData();
 		},
 		sortStock : function(cb){
 			var self = this;
