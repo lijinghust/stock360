@@ -124,10 +124,40 @@
 	window.LocalData = LocalData;
 })(jQuery);
 
+// 根据不同类型的代码，生成不同的url
+function getLinkUrl(obj){
+	var linkUrl = '',
+		imgUrl = '';
+
+	switch(obj.type){
+		case "ZS":
+			linkUrl =  'http://stockhtm.finance.qq.com/hqing/zhishu/' + obj.code + '.htm';
+			break;
+		case "GP-A":
+		case undefined:
+			linkUrl = 'http://stockhtm.finance.qq.com/sstock/ggcx/' +　obj.code + '.shtml';
+			break;
+		default:
+			linkUrl = 'http://stockhtm.finance.qq.com/fund/djj_jjcx/' + obj.code + '.htm';
+			break;
+	}
+
+	if(obj.type == "ZS"){
+		imgUrl = 'http://img2.gtimg.cn/images/hq_parts_little4/hushen/indexs/' + obj.code + '.png';
+	}else if(obj.type == "GP-A" || obj.type == "FJ-CX" || obj.type == ""){
+		imgUrl = 'http://img2.gtimg.cn/images/hq_parts_little4/hushen/stocks/' + obj.code + '.png'
+	}
+
+	return {
+		linkUrl : linkUrl,
+		imgUrl : imgUrl
+	};
+}
+
 ;(function($,undefined){
-	var sTplList = ['<li id="{key}">',
+	var sTplList = ['<li id="{key}" data-type="{type}"">',
 						'<span class="top" title="置顶">置顶</span>',
-						'<span class="name"><a target="_blank" href="http://stockhtm.finance.qq.com/sstock/ggcx/{code}.shtml">{name}({code})</a></span>',
+						'<span class="name"><a target="_blank" href="{url}">{name}({code})</a></span>',
 						'<span class="price">--</span>',
 						'<span class="grow">--</span>',
 						'<span class="hands">--</span>',
@@ -144,8 +174,9 @@
 			var sHtml = '';
 			dataList.forEach(function(item){
 				var itemObj = $.extend({},item);
-				itemObj.code = itemObj.key.slice(2);
-				itemObj.remarkFlag = itemObj.remark ? "remarked" : "";
+				itemObj.code = item.key.slice(2);
+				itemObj.remarkFlag = item.remark ? "remarked" : "";
+				itemObj.url = getLinkUrl(itemObj).linkUrl;
 				sHtml += tmpl(sTplList,itemObj);
 			});
 			return sHtml;
@@ -201,9 +232,11 @@
 			}
 			var obj = $.extend({}, queryObj);
 
-			this.addStockData(obj.key);
+			this.addStockData(obj);
 
-			LocalData.add(queryObj);
+			LocalData.add(obj);
+
+			this.updateStockData();
 		},
 		sortStock : function(cb){
 			var self = this;
@@ -225,14 +258,11 @@
 				cb && cb();
 			});
 		},
-		addStockData : function(key){
-			this._loadStockData(key,function(res){
-				var obj = res['v_' + key];
-				obj.key = key;
-				var sHtml = tmpl(sTplList,obj);
+		addStockData : function(obj){
+			obj.code = obj.key.slice(2);
+			var sHtml = tmpl(sTplList,obj);
 
-				$('#zxg .zxg-list').prepend(sHtml);
-			});
+			$('#zxg .zxg-list').prepend(sHtml);
 		},
 		updateStockData : function(cb){
 			var keys = LocalData.getKeys();
@@ -317,12 +347,17 @@
 				var $parent = $el.parents("li");
 				
 				var code = $parent.attr("id").slice(2);
+				var type = $parent.attr("data-type");
+				var imgUrl = getLinkUrl({code:code,type:type}).imgUrl;
+				if(imgUrl == ""){
+					return;
+				}
 				timerTrend = setTimeout(function(){
 					var style = '';
 					if($parent.height()+$parent.position().top+80>$(".zxg-bd").height()){
 						style = ' style="top:-82px"';
 					}
-					var str = '<div class="trendImg"' + style + '><img src="http://img2.gtimg.cn/images/hq_parts_little4/hushen/stocks/'+code+'.png?'+Math.random()+'" alt="" /></div>';
+					var str = '<div class="trendImg"' + style + '><img src="'+imgUrl+'?'+Math.random()+'" alt="" /></div>';
 					$el.append(str);					
 				},500);
 			}).delegate("li .name","mouseleave",function(e){
@@ -366,6 +401,21 @@
 		},1000);		
 	}
 	startRender();
+
+	// 一个简单的检测是否开盘时间，否则停止更新数据
+	(function(){
+		var curTime = new Date();
+
+		var base = curTime.getFullYear() + '/' + (curTime.getMonth() + 1) + '/' + curTime.getDate() + ' ';
+		var startAM = base + '09:15:00'; // 早盘开盘时间
+		var endAM = base + '11:30:00';	// 早盘开盘时间
+		var startPM = base + '13:00:00';	// 午盘开盘时间
+		var endPM = base + '15:00:00';	// 午盘闭盘时间
+
+		if(+curTime < +new Date(startAM) || ( +new Date(endAM) < +curTime && +curTime < +new Date(startPM) ) || +curTime > +new Date(endPM) ){
+			clearInterval(timer);
+		}
+	})();
 
 	window.LocalData = LocalData;
 	window.Stock = Stock;

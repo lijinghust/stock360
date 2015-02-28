@@ -1,12 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "stock",
-  "version": "1.0.1",
+  "name": "股票小助手",
+  "version": "1.0.0",
+  "description": "办公室看盘炒股利器，不会被上司发现的看盘软件",
 
-  "description": "This extension demonstrates a browser action with stock.",
-
-  "permissions": ["tabs", "*://*/*" ],
-  // "content_security_policy": "script-src 'self' https://qt.gtimg.cn; object-src 'self'",
+  "permissions": ["tabs", "cookies", "storage", "*://*/*" ],
   "browser_action": {
     "default_icon": {
       "19" : "images/logo19.png",
@@ -16,8 +14,8 @@
     },
     "default_popup": "index.html"
   },
-  "background" : {
-    "scripts" : ["background.js"]
+  "background": {
+    "scripts": ["background.js"]
   },
-  "update_url": "https://clients2.google.com/service/update2/crx"
+  "update_url": "http://upext.chrome.360.cn/intf.php?method=ExtUpdate.query"
 }

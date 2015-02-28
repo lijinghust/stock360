@@ -20,7 +20,6 @@
 	}
 
 	var init = function(obj,cb){
-		// var api = 'http://localhost/stock/weixinapi.php';		
 		$.ajax(obj.url,{
 			success:function(res){
 				var ret = JSON.parse(res);
