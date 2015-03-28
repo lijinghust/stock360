@@ -16,13 +16,33 @@
         padding:0 20px;
         margin-top:0;
     }
+    
+    .erweima img{
+        float:left;
+        margin:0 50px 0 170px;
+    }
+    .erweima .info{
+        float:left;
+        width:400px;
+        margin-top:60px;
+        font-size:32px;
+    }
+    .erweima .weixin{
+        color:red;
+    }
 </style>
 {% endblock %}
 {% block page_head %}
     股票精选
 {% endblock %}
 {% block page_head_des %}
-    给您推荐分析师精心筛选的股票
+    <div class="erweima clearfix">
+        <img src="http://p9.qhimg.com/d/inn/8febc82c/qrcode_for_gh_e8391a6ba9b6_344.jpg" alt="">
+        <p class="info">
+            微信扫描左侧二维码关注“<span class="weixin">股票帝</span>”公众号，每日盘前推荐精选个股2~3只。<br/><br/>
+            网站已停更，敬请谅解！
+        </p>
+    </div>
 {% endblock %}
 
 {% block content %}
