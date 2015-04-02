@@ -266,26 +266,35 @@ function getLinkUrl(obj){
 		},
 		updateStockData : function(cb){
 			var keys = LocalData.getKeys();
+			var NUM = 30;	// 每30个一组发请求
+			
+			for(var i = 0,len = Math.ceil(keys.length/NUM); i < len; i++){
+				var arr = keys.splice(0, NUM);
 
-			this._loadStockData(keys.join(","),function(res){
-				var $els = $("#zxg .zxg-list li");
-				$els.each(function(index,item){
-					var key = item.id;
-					var obj = res['v_' + key];
-					var item = $(item);
-					if(!item.attr("id")){
-						return;
-					}
-					if(item == undefined || item.find(".price") == undefined){
-						console.log(item)
-					}
-					item.find(".price").html(obj.price).removeClass('increase','reduce').addClass(obj.className);
-					item.find(".grow").html(obj.growRate).removeClass('increase','reduce').addClass(obj.className);
-					item.find(".hands").html(obj.hands);
+				this._loadStockData(arr.join(","),function(res){
+					var $els = $("#zxg .zxg-list li");
+					
+					$els.each(function(index,item){
+						var key = item.id;
+						var obj = res['v_' + key];
+						if(!obj){
+							return;
+						}
+						var item = $(item);
+						if(!item.attr("id")){
+							return;
+						}
+						if(item == undefined || item.find(".price") == undefined){
+							console.log(item)
+						}
+						item.find(".price").html(obj&&obj.price || 0).removeClass('increase','reduce').addClass(obj.className);
+						item.find(".grow").html(obj.growRate).removeClass('increase','reduce').addClass(obj.className);
+						item.find(".hands").html(obj.hands);
+					});
+
+					cb && cb();
 				});
-
-				cb && cb();
-			});
+			}
 		},
 		initDom : function(){
 			var sHtml = this._renderStockStruct();
