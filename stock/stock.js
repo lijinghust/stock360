@@ -267,9 +267,14 @@ function getLinkUrl(obj){
 		updateStockData : function(cb){
 			var keys = LocalData.getKeys();
 			var NUM = 30;	// 每30个一组发请求
+
+			if(keys.length == 0){
+				$("#zxg .loading").hide();
+				return;
+			}
 			
 			for(var i = 0,len = Math.ceil(keys.length/NUM); i < len; i++){
-				var arr = keys.splice(0, NUM);
+				var arr = keys.slice(i*NUM, (i+1)*NUM);
 
 				this._loadStockData(arr.join(","),function(res){
 					var $els = $("#zxg .zxg-list li");
@@ -287,7 +292,7 @@ function getLinkUrl(obj){
 						if(item == undefined || item.find(".price") == undefined){
 							console.log(item)
 						}
-						item.find(".price").html(obj&&obj.price || 0).removeClass('increase','reduce').addClass(obj.className);
+						item.find(".price").html(obj.price).removeClass('increase','reduce').addClass(obj.className);
 						item.find(".grow").html(obj.growRate).removeClass('increase','reduce').addClass(obj.className);
 						item.find(".hands").html(obj.hands);
 					});
