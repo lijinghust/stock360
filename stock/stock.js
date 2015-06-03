@@ -227,7 +227,13 @@ function getLinkUrl(obj){
 		addStock : function(queryObj){
 			var self = this;
 			if(LocalData.isExist(queryObj.key)){
-				alert('已在自选股中');
+				$warning = $('#warning');
+				$warning.show().css('opacity', 1).html('您要添加的股票已经在自选股中!');
+				$warning.animate({
+					opacity:0
+				}, 3000, function(){
+					$warning.hide();
+				});
 				return;
 			}
 			var obj = $.extend({}, queryObj);
