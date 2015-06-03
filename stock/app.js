@@ -24,8 +24,14 @@
 				pinyin : arr[3],
 				type : arr[4]
 			}
-			if(LocalData.num() >= 50){
-				alert("您的自选股中已经达到50个的上限，请删除一些再添加");
+			if(LocalData.num() >= 100){
+				$warning = $('#warning');
+				$warning.show().css('opacity', 1).html('您的自选股中已经达到100个的上限，请删除一些再添加!');
+				$warning.animate({
+					opacity:0
+				}, 3000, function(){
+					$warning.hide();
+				});
 				return;
 			}
 			Stock.addStock(queryObj);

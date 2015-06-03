@@ -507,7 +507,18 @@
 		background:#333;
 		opacity:0.5;
 	}
-
+	#warning{
+		display:none;
+		position:absolute;
+		width:540px;
+		left:7px;
+		top:78px;
+		color: #8a6d3b;
+		background-color: #fcf8e3;
+		border:1px solid #faebcc;
+		padding: 15px;
+		border-radius:4px;
+	}
 </style>
 <link rel="stylesheet" href="jquery-ui.css">
 	</head>
@@ -577,6 +588,7 @@
 			</div>
 		</div>
 		<div class="mask"></div>
+		<div id="warning" ></div>
 	</body>
 	<script src="jquery_1102.js"></script>
 	<script src="jquery-ui.js"></script>
