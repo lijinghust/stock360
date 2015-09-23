@@ -1,8 +1,40 @@
 ;(function($,undefined){
-	// var weixinListApi = 'http://6y6y.net/api/weixin/list.php';
-	// var stockListApi = 'http://6y6y.net/api/stock/list.php';
-	var weixinListApi = 'http://localhost/stock/api/weixin/list.php';
-	var stockListApi = 'http://localhost/stock/api/stock/list.php';
+	(function(){
+		var renderIconHtml = function(){
+			var confIcons = ['rabbit', 'panda', 'mouse', 'lips', 'bear', 'dog', 'angrybird', 'hellokitty', 'octopus', 'tiger', 'flower', 'crab'];
+			// window.confIcons = confIcons;
+			var html = [];
+			while(confIcons.length){
+				var icon = confIcons.shift();
+				html.push('<a href="#" class="icon" data-id="' + icon + '"><img src="images/icons/' + icon + '.png"/></a>');
+			}
+			$('#setting .iconlist').html(html.join(""));			
+		}
+		var bindEvent = function(){
+			$('.setting').on('click', function(e){
+				$("#setting").toggle();
+				$('.mask').toggle();
+			});
+			$('#setting').delegate('.icon', 'click', function(e){
+				var name = $(this).attr('data-id');
+				localStorage.setItem('stock_icon', name);
+				$('.iconlist .icon').removeClass('cur');
+				$(this).addClass('cur');
+
+				chrome.browserAction.setIcon({path: 'images/icons/' + name + '.png'});
+			}).delegate('.close', 'click', function(e){
+				$('#setting').hide();
+				$('.mask').hide();
+			}).delegate('.default', 'click', function(e){
+				localStorage.removeItem('stock_icon');
+				chrome.browserAction.setIcon({path: 'images/logo48.png'});
+			});
+		}
+		renderIconHtml();
+		bindEvent();
+	})();
+
+
 	/* 搜索suggest */
 	var sug = new Suggest({
 		template : {
@@ -40,6 +72,9 @@
 	});
 	window.TYPE = "financeQQ";
 
+
+	// var weixinListApi = 'http://localhost/stock/api/weixin/list.php';
+	// var stockListApi = 'http://localhost/stock/api/stock/list.php';
 	// /* tab切换 */
 	// $tabs = $(".nav-tabs .tab");
 	// $tabPanes = $(".tab-content .tab-pane");
