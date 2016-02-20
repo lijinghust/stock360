@@ -10,8 +10,6 @@
 		<meta name="google-site-verification" content="BcEJ7R66cgv54clfJOdpXZXoVFHcexsGYgNvlK76TRc" />
 		<title>{% block title %}{% endblock %}股票360-国内第一股票推荐平台</title>
 		<meta name="domain_verify" content="pmrgi33nmfuw4ir2ejzxi33dnmztmmbomnxcelbcm52wszbchirdqztgmu3gczbqhbtgmzrugy2tcodcgjrdsnjwmi2win3dgjqtqmbcfqrhi2lnmvjwc5tfei5dcnbvgu4tiojzg4ydimjypu">
-
-		<link rel="shortcut icon" href="http://s3.qhimg.com/static/e573e65b81419e66.ico" >
 		<link rel="stylesheet" href="/resource/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="/resource/css/star.css">
 		<style>
@@ -63,8 +61,8 @@
 			color:#666;
 		}
 		::selection {
-		   /* background: #FD5D3C;
-		    color: #fff;*/
+		    background: #FD5D3C;
+		    color: #fff;
 		}
 		.navbar-brand{
 			line-height:40px;
@@ -239,8 +237,7 @@
 					<li {% if cates.category == "news" %}class="active"{% endif %}><a href="/news">新闻</a></li>
 					<li {% if cates.category == "stock" %}class="active"{% endif %}><a href="/stock">推荐股票</a></li>
 					<li {% if cates.category == "article" %}class="active"{% endif %}><a href="/article">股票入门</a></li>
-					<li><a href="http://lhb.stock360.cn">龙虎榜</a></li>
-					<li><a href="http://lhb.stock360.cn/dz">破定增价股</a></li>
+					<!-- <li {% if cates.category == "extension" %}class="active"{% endif %}><a href="/extension">插件</a></li> -->
 				</ul>
 		      <!-- <form class="navbar-form navbar-right" role="search">
 		        <div class="form-group">
@@ -301,9 +298,7 @@
 		{% include "footer.html" %}
 	<script src="http://s7.qhimg.com/lib/jquery/1102.js"></script>
 	<script src="/resource/js/bootstrap.js"></script>
-	<span style="display:none">
 	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254147218'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254147218%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
-	</span>
 	{% block footer %}
 	{% endblock %}
 	</body>

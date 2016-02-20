@@ -120,7 +120,7 @@
 </style>
 <style type="text/css">
 	body{
-		width:500px;
+		width:600px;
 		height:400px;
 	}
 	.sug .sug-item{
@@ -507,86 +507,14 @@
 		background:#333;
 		opacity:0.5;
 	}
-	#warning{
-		display:none;
-		position:absolute;
-		width:540px;
-		left:7px;
-		top:78px;
-		color: #8a6d3b;
-		background-color: #fcf8e3;
-		border:1px solid #faebcc;
-		padding: 15px;
-		border-radius:4px;
-	}
 
-
-	#setting{
-		display:none;
-		position:absolute;
-		top:50%;
-		left:50%;
-		z-index:201;
-		width:400px;
-		height:300px;
-		margin-left:-200px;
-		margin-top:-150px;
-		border-radius:5px;
-		background:white;
-	}
-	#setting .title{
-		margin:15px 0 0 10px;
-	}
-	#setting .iconlist .icon{
-		display:inline-block;
-		border:solid 2px transparent;
-		margin: 10px 14px 0;
-		border-radius:4px;
-		background:#D0CBCB;
-	}
-	#setting .iconlist .icon img{
-		height:48px;
-		width:48px;
-	}
-	#setting .iconlist .cur,
-	#setting .iconlist .icon:hover{
-		border-color:#B5AFAF;
-	}
-	#setting .close{
-		position:absolute;
-		top:3px;
-		right:3px;
-		width:30px;
-		height:30px;
-		line-height:30px;
-		text-align: center;
-		background:#CECBCB;
-		font-size: 22px;
-		cursor:pointer;
-		border-radius: 15px;
-	}
-	#setting .default{
-		position: absolute;
-		top:15px;
-		left:160px;
-
-	}
 </style>
 <link rel="stylesheet" href="jquery-ui.css">
 	</head>
 	<body>
-		<!-- <a href="#" class="setting">设置</a> -->
-		<div id="setting">
-			<div class="title">选择浏览器显示图标</div>
-			<div class="iconlist"></div>
-			<span class="close">X</span>
-			<a href="#" class="default">X 使用默认图标</a>
-		</div>
 		<ul class="nav-tabs">
 			<li class="tab on" data-type="default"><a href="#">我的自选</a></li>
-			<li class="tab"><a href="http://lhb.stock360.cn" target="_blank">龙虎榜</a></li>
-			<li class="tab"><a href="http://lhb.stock360.cn/dz" target="_blank">破定增价股</a></li>
-			<li class="tab"><a href="#" class="setting">设置</a></li>
+			<li class="tab"><a href="http://www.stock360.cn/stock" target="_blank">推荐股票</a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane on">
@@ -649,10 +577,6 @@
 			</div>
 		</div>
 		<div class="mask"></div>
-		<div id="warning" ></div>
-		<span style="display:none">
-			<script src="cnzz.js"></script>
-		</span>
 	</body>
 	<script src="jquery_1102.js"></script>
 	<script src="jquery-ui.js"></script>

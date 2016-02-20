@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "股票小助手",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "办公室看盘炒股利器，不会被上司发现的看盘软件",
 
   "permissions": ["tabs", "cookies", "storage", "*://*/*" ],
@@ -17,6 +17,5 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "content_security_policy": "script-src 'self' https://*.cnzz.com; object-src 'self'",
   "update_url": "http://upext.chrome.360.cn/intf.php?method=ExtUpdate.query"
 }

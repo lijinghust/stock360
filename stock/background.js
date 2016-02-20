@@ -12,16 +12,3 @@
 // 	},1000);
 	
 // })();
-
-
-
-(function(){
-	var icon = localStorage.getItem('stock_icon');
-	if(icon != undefined){
-		chrome.browserAction.setIcon({path:'images/icons/'+icon+'.png'});
-	}
-	
-})();
-
-
-
