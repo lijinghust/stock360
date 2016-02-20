@@ -227,7 +227,13 @@ function getLinkUrl(obj){
 		addStock : function(queryObj){
 			var self = this;
 			if(LocalData.isExist(queryObj.key)){
-				alert('已在自选股中');
+				$warning = $('#warning');
+				$warning.show().css('opacity', 1).html('您要添加的股票已经在自选股中!');
+				$warning.animate({
+					opacity:0
+				}, 3000, function(){
+					$warning.hide();
+				});
 				return;
 			}
 			var obj = $.extend({}, queryObj);
@@ -266,26 +272,40 @@ function getLinkUrl(obj){
 		},
 		updateStockData : function(cb){
 			var keys = LocalData.getKeys();
+			var NUM = 30;	// 每30个一组发请求
 
-			this._loadStockData(keys.join(","),function(res){
-				var $els = $("#zxg .zxg-list li");
-				$els.each(function(index,item){
-					var key = item.id;
-					var obj = res['v_' + key];
-					var item = $(item);
-					if(!item.attr("id")){
-						return;
-					}
-					if(item == undefined || item.find(".price") == undefined){
-						console.log(item)
-					}
-					item.find(".price").html(obj.price).removeClass('increase','reduce').addClass(obj.className);
-					item.find(".grow").html(obj.growRate).removeClass('increase','reduce').addClass(obj.className);
-					item.find(".hands").html(obj.hands);
+			if(keys.length == 0){
+				$("#zxg .loading").hide();
+				return;
+			}
+			
+			for(var i = 0,len = Math.ceil(keys.length/NUM); i < len; i++){
+				var arr = keys.slice(i*NUM, (i+1)*NUM);
+
+				this._loadStockData(arr.join(","),function(res){
+					var $els = $("#zxg .zxg-list li");
+					
+					$els.each(function(index,item){
+						var key = item.id;
+						var obj = res['v_' + key];
+						if(!obj){
+							return;
+						}
+						var item = $(item);
+						if(!item.attr("id")){
+							return;
+						}
+						if(item == undefined || item.find(".price") == undefined){
+							console.log(item)
+						}
+						item.find(".price").html(obj.price).removeClass('increase','reduce').addClass(obj.className);
+						item.find(".grow").html(obj.growRate).removeClass('increase','reduce').addClass(obj.className);
+						item.find(".hands").html(obj.hands);
+					});
+
+					cb && cb();
 				});
-
-				cb && cb();
-			});
+			}
 		},
 		initDom : function(){
 			var sHtml = this._renderStockStruct();

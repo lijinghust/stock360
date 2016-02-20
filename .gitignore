@@ -1,1 +1,2 @@
-App/Runtime/Data/*
+*.DS_Store
+App/Runtime
