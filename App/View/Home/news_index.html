@@ -1,0 +1,55 @@
+{% extends '../Common/base.html' %}
+
+{% block title %}资讯-{% endblock %}
+
+{% block header %}
+<style type="text/css">
+	.st-mod{
+		margin-bottom:15px;
+	}
+	.st-mod .section{
+		border-top:0;
+	}
+</style>
+{% endblock %}
+
+{% block page_head %}
+	快讯
+{% endblock %}
+{% block page_head_des %}
+	第一时间了解移动互联网领域的新消息新动态。
+{% endblock %}
+
+{% block content %}
+{% for item in newsList %}
+<div class="st-mod">        
+    <div class="section">
+        <div class="title">
+            <h3><a href="/news/detail?id={{ item.id }}">{{ item.title }}</a></h3>
+        </div>
+        <div class="info">
+            {{ item.content }}&nbsp;&nbsp;&nbsp;&nbsp;<a class="detail" href="/news/detail?id={{ item.id }}" target="_blank">查看详情</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- <ul class="list-group">
+	{% for item in data %}
+	<li class="list-group-item">
+		<span class="badge">{{ item.pub_time }}</span>
+		<a href="/news/detail?id={{ item.id }}">{{ item.title }}</a>
+	</li>
+	{% endfor %}
+</ul> -->
+<nav>
+  <ul class="pagination">
+    {{ pager_html }}
+  </ul>
+</nav>
+{% endblock %}
+	
+{% block footer %}
+
+{% endblock %}	

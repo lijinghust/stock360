@@ -1,0 +1,34 @@
+{% extends '../Common/base.html' %}
+
+{% block title %}股票精选-{% endblock %}
+
+{% block header %}
+<style type="text/css">
+	.stock-mod{
+		margin-bottom:15px;
+	}
+    .st-mod .section{
+        border-top:0;
+    }
+</style>
+{% endblock %}
+{% block page_head %}
+    股票精选
+{% endblock %}
+{% block page_head_des %}
+    给您推荐分析师精心筛选的股票
+{% endblock %}
+
+{% block content %}
+    <div class="st-mod stock-mod">
+        <div class="section">
+        {% for date in dateList %}
+            <a href="/stock/index?date={{ date }}" class="btn btn-default" role="button">{{ date }}</a>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+	
+{% block footer %}
+
+{% endblock %}	

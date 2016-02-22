@@ -1,0 +1,13 @@
+
+股票雷达页面：可设置大买单，大卖单，快速上涨下跌，打开涨停跌停，大单成交等监控
+http://stockhtm.finance.qq.com/sstock/radar/index.htm
+
+1. 个股所有大单成交成交数据
+http://stock.gtimg.cn/data/index.php?appn=radar&t=sh601390&d=00000000
+
+2. 所有股票当前时刻大单成交
+http://stock.gtimg.cn/data/index.php?appn=radar&t=latest&v=vLATEST
+
+3. 所有股票历史时刻大单成交（10:15~10:30）
+http://stock.gtimg.cn/data/index.php?appn=radar&t=all&d=10151030
+

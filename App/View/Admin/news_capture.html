@@ -1,0 +1,44 @@
+{% extends '../Common/base_admin.html' %}
+
+{% block title %}index{% endblock %}
+
+{% block header %}
+<style type="text/css">
+	.alert-success,.alert-danger{
+		display:none;
+	}
+</style>
+{% endblock %}
+
+{% block page_head %}新闻{% endblock %}
+
+
+{% block content %}
+<div class="alert alert-success" role="alert">共抓取了 <span class="num"></span> 数据</div>
+<div class="alert alert-danger" role="alert">正在抓取数据中...</div>
+<button type="button" class="btn btn-default" id="capture">抓取数据</button>
+{% endblock %}
+	
+{% block footer %}
+	<script>
+		$("#capture").on('click',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+
+			$('.alert-danger').show();
+			$('.alert-success').hide();
+
+			var self = this;
+			$.get('/admin/news/_capture',function(res){
+				console.log(res);
+				if(res.errno == 0){
+					$('.alert-success .num').html(res.data.length);
+					$('.alert-success').show();
+					$('.alert-danger').hide();
+				}else{
+					alert("fail");
+				}
+			});
+		});
+	</script>
+{% endblock %}

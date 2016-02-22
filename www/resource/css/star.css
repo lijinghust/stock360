@@ -1,0 +1,46 @@
+.rating,
+.rating em{
+	position:relative;
+	width:60px;
+	height:14px;
+	background-image:url(/resource/images/star.png);
+	background-repeat:no-repeat;
+	background-position:0 -14px;
+}
+.rating em{
+	position:absolute;
+	top:0;
+	left:0;
+	background-position:0 0;
+}
+.rating em.rating5{
+	width:6px;
+}
+.rating em.rating10{
+	width:12px;
+}
+.rating em.rating15{
+	width:18px;
+}
+.rating em.rating20{
+	width:24px;
+}
+.rating em.rating25{
+	width:30px;
+}
+.rating em.rating30{
+	width:36px;
+}
+.rating em.rating35{
+	width:42px;
+}
+.rating em.rating40{
+	width:48px;
+}
+.rating em.rating45{
+	width:54px;
+}
+.rating em.rating50{
+	width:60px;
+}
+
